@@ -1,14 +1,14 @@
-type Rate{
-    currency: String!
-    rate: Float!
+type ResponseRate {
+    status: String!
+    body: String!
 }
 
-type Conversion{
-    currency: String!
-    value: Float!
+type ResponseValue {
+    status: String!
+    body: String!
 }
 
 type Query {
-    rate(source: String!, target: [String]): String
-    value(source: String!, amount: Float!, target: [String]): String
+    rate(source: String!, target: [String]): ResponseRate!
+    value(source: String!, amount: Float!, target: [String]): ResponseValue!
 }
