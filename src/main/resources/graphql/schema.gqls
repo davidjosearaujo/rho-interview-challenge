@@ -1,0 +1,14 @@
+type Rate{
+    currency: String!
+    rate: Float!
+}
+
+type Conversion{
+    currency: String!
+    value: Float!
+}
+
+type Query {
+    rate(source: String!, target: [String]): String
+    value(source: String!, amount: Float!, target: [String]): String
+}

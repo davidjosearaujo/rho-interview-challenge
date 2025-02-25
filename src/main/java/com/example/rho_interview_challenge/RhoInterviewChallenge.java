@@ -9,12 +9,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,6 +37,16 @@ public class RhoInterviewChallenge {
 
 	public static void main(String[] args) {
 		SpringApplication.run(RhoInterviewChallenge.class, args);
+	}
+
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/products").allowedOrigins("http://localhost:8080");
+			}
+		};
 	}
 
 	@Autowired
@@ -52,10 +67,11 @@ public class RhoInterviewChallenge {
 		@ApiResponse(responseCode = "200", description = "Exchange rates successfully fetched"),
 		@ApiResponse(responseCode = "404", description = "Currency not found")
 	})
+	@QueryMapping
 	@GetMapping(value = "/rate/{source}")
-	public ResponseEntity<Object> getRate(
-			@Parameter(name = "source", description = "Original currency", example = "USD") @PathVariable("source") String source,
-			@Parameter(name = "target", description = "List of target currencies", example = "target=EUR&target=GGP") @RequestParam(required = false) List<String> target) {
+	public ResponseEntity<Object> rate(
+			@Parameter(name = "source", description = "Original currency", example = "USD") @Argument @PathVariable("source") String source,
+			@Parameter(name = "target", description = "List of target currencies", example = "target=EUR&target=GGP") @Argument @RequestParam(required = false) List<String> target) {
 		LOGGER.info("Getting exchange rate for currency " + source);
 		
 		// We can provision three options:
@@ -67,7 +83,7 @@ public class RhoInterviewChallenge {
 		Map<String, Double> rates = new HashMap<>();
 
 		// Case 1: No target provided. Return all rates except source
-		if (target == null) {
+		if (target == null || target.isEmpty()) {
 			if (!exchangeRate.getRates().containsKey(source)) {
 				return new ResponseEntity<>("Currency not found", HttpStatus.NOT_FOUND);
 			}
@@ -104,11 +120,12 @@ public class RhoInterviewChallenge {
 		@ApiResponse(responseCode = "400", description = "Invalid amount format"),
 		@ApiResponse(responseCode = "404", description = "Currency not found")
 	})
+	@QueryMapping
 	@GetMapping(value = "/value/{source}/{amount}")
-	public ResponseEntity<Object> getValue(
-			@Parameter(name = "source", description = "Original currency", example = "USD") @PathVariable("source") String source,
-			@Parameter(name = "amount", description = "Amount to convert", example = "2.5") @PathVariable("amount") String amount,
-			@Parameter(name = "target", description = "List of target currencies", example = "target=EUR&target=GGP") @RequestParam(required = false) List<String> target) {
+	public ResponseEntity<Object> value(
+			@Parameter(name = "source", description = "Original currency", example = "USD") @Argument @PathVariable("source") String source,
+			@Parameter(name = "amount", description = "Amount to convert", example = "2.5") @Argument @PathVariable("amount") String amount,
+			@Parameter(name = "target", description = "List of target currencies", example = "target=EUR&target=GGP") @Argument @RequestParam(required = false) List<String> target) {
 
 		// We can provision three options:
 		// - If no target is provided, return all values for the source currency
@@ -149,6 +166,4 @@ public class RhoInterviewChallenge {
 
 		return new ResponseEntity<>(values, HttpStatus.OK);
 	}
-	
-	
 }
