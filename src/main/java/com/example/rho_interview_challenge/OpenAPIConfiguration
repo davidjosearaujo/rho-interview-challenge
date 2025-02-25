@@ -1,0 +1,22 @@
+@Configuration
+public class OpenAPIConfiguration {
+
+   @Bean
+   public OpenAPI defineOpenApi() {
+       Server server = new Server();
+       server.setUrl("http://localhost:8080");
+       server.setDescription("Rho API Interview Challenge");
+
+       Contact myContact = new Contact();
+       myContact.setName("David Araújo");
+       myContact.setEmail("recruiting@davidjosearaujo.dev");
+
+       Info information = new Info()
+               .title("Exchange Rates API")
+               .version("1.0")
+               .description("API to get exchange rates")
+               .termsOfService("http://swagger.io/terms/")
+               .contact(myContact);
+       return new OpenAPI().info(information).servers(List.of(server));
+   }
+}
