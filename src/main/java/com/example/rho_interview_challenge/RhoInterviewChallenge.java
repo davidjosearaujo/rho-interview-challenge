@@ -44,15 +44,15 @@ public class RhoInterviewChallenge {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/products").allowedOrigins("http://localhost:8080");
+				registry.addMapping("/").allowedOrigins("http://localhost:8080");
 			}
 		};
 	}
 
 	@Autowired
-    public RhoInterviewChallenge(ExchangeRateService exchangeRateService) {
-        this.exchangeRateService = exchangeRateService;
-    }
+	public RhoInterviewChallenge(ExchangeRateService exchangeRateService) {
+		this.exchangeRateService = exchangeRateService;
+	}
 	
 	// Get exchange rates for a currency A to all or to a specific currency B
 	// If currency parameter is not provided, return all exchange rates for currency
