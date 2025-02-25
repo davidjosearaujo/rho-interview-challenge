@@ -11,9 +11,12 @@
 - [x] Get value from A to B
 - [x] Get value from A to list of provided currencies
 - [x] Auto documentation with Swagger
-- [ ] Support for GraphQL
+- [x] Support for GraphQL
 - [x] Implement rate limiting
+- [x] Dockerize
 - [ ] Implement authentication/authorization
+- [ ] Unit testing
+- [ ] Remove TESTING blocks (mainly because I exceeded the montly API calls to the provider hahaha)
 
 Data providers to use:
 - [exchangerate.host](https://exchangerate.host)
