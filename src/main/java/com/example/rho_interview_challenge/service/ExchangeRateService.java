@@ -1,4 +1,4 @@
-package com.example.rho_interview_challenge;
+package com.example.rho_interview_challenge.service;
 
 import java.io.IOException;
 import java.net.URI;
@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.example.rho_interview_challenge.ExchangeRate;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -60,7 +61,20 @@ public class ExchangeRateService {
                 return new ExchangeRate(); // Return an empty object instead of throwing an exception
             }
 
-            JsonNode rootNode = mapper.readTree(response.body());
+            // TESTING
+            String mockResponse = "{\n" +
+                    " \"success\": true,\n" +
+                    " \"terms\": \"https:\\/\\/currencylayer.com\\/terms\",\n" +
+                    " \"privacy\": \"https:\\/\\/currencylayer.com\\/privacy\",\n" +
+                    " \"timestamp\": 1740477123,\n" +
+                    " \"source\": \"USD\",\n" +
+                    " \"quotes\": {\n" +
+                    "  \"USDAED\": 3.672745,\n" +
+                    "  \"USDAFN\": 73.978873\n}}";
+
+            //JsonNode rootNode = mapper.readTree(response.body());
+            // TESTING
+            JsonNode rootNode = mapper.readTree(mockResponse);
             Map<String, Double> rates = new HashMap<>();
             rootNode.get("quotes").fields().forEachRemaining(entry -> {
                 rates.put(entry.getKey().substring(3), entry.getValue().asDouble());
