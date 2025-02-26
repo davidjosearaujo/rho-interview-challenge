@@ -18,38 +18,24 @@ LIMIT_FOR_PERIOD=5
 LIMIT_REFRESH_PERIOD=60
 TIMEOUT_DURATION=60
 
-KEYSTORE_PASSWORD=<ssl-key-store-password>
+KEYSTORE_PASSWORD=rhointerview
 
 JWT_SECRTE=<secret>
 ```
 
 # Design process
 
-## General requirements
-
-- [x] Get exchange from A to B
-- [x] Get exchange from A to B..Z
-- [x] Get value from A to B
-- [x] Get value from A to list of provided currencies
-- [x] Auto documentation with Swagger
-- [x] Support for GraphQL
-- [x] Implement rate limiting
-- [x] Dockerize
-- [x] SSL
-- [ ] Implement authentication/authorization
-- [ ] Unit testing
-- [ ] Remove TESTING blocks (mainly because I exceeded the montly API calls to the provider hahaha)
 
 Data providers to use:
 - [exchangerate.host](https://exchangerate.host)
 
-### Important notes
+## Important notes
 
 > *"make as few calls as possible"*
 
 We can **use "two-step conversion"** for exchanges by query only for the rates of exchange for currency X to all other currency and then use it as a conversion map. **This way we can only query for complete list of rates and only when data is obsolete.**
 
-> #### Example:
+> ### Example:
 >
 > - If we are first queried for the rate between A and B, we can request the provider for all the rates of A, and if we are then queried for X to Z, we can just use the existing locally stored rates (if not obsolete) and calculate X to A and A to Z.
 > - **Exchange rate of A to B = (A to X) * (X to B)**
@@ -69,7 +55,8 @@ flowchart LR
     step5 --> step6
 ```
 
-## API endpoints
+### API endpoints
+
 - `/rate/A` - Get exchange rates for currency A
 - `/rate/A?currency=B` - Get exchange rate from currency A to B
 - `/rate/A?c=B&c=C&c=D` - Get exchange rate from currency A to B, C and D
@@ -78,9 +65,9 @@ flowchart LR
 
 - `/swagger-ui/index.html` - API Swagger Docs
 
-## Data provider
+# Data provider
 
-### Response format
+## Response format
 
 For this request: `https://api.exchangerate.host/live?access_key=<api_key>`
 
@@ -101,6 +88,21 @@ We get the following response
 }
 ```
 
-## Authentication
+# Authentication
 
 Follow this tutorial: https://www.geeksforgeeks.org/spring-boot-oauth2-with-jwt/
+
+# Feature implementation
+
+- [x] Get exchange from A to B
+- [x] Get exchange from A to B..Z
+- [x] Get value from A to B
+- [x] Get value from A to list of provided currencies
+- [x] Auto documentation with Swagger
+- [x] Support for GraphQL
+- [x] Implement rate limiting
+- [x] Dockerize
+- [x] SSL
+- [ ] Implement authentication/authorization
+- [ ] Unit testing
+- [ ] Remove TESTING blocks (mainly because I exceeded the monthly API calls to the provider hahaha)
