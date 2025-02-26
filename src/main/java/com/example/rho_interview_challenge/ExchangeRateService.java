@@ -1,4 +1,4 @@
-package com.example.rho_interview_challenge.service;
+package com.example.rho_interview_challenge;
 
 import java.io.IOException;
 import java.net.URI;
@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.example.rho_interview_challenge.ExchangeRate;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
