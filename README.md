@@ -17,6 +17,10 @@ CACHE_DURATION=60
 LIMIT_FOR_PERIOD=5
 LIMIT_REFRESH_PERIOD=60
 TIMEOUT_DURATION=60
+
+KEYSTORE_PASSWORD=<ssl-key-store-password>
+
+JWT_SECRTE=<secret>
 ```
 
 # Design process
@@ -31,6 +35,7 @@ TIMEOUT_DURATION=60
 - [x] Support for GraphQL
 - [x] Implement rate limiting
 - [x] Dockerize
+- [x] SSL
 - [ ] Implement authentication/authorization
 - [ ] Unit testing
 - [ ] Remove TESTING blocks (mainly because I exceeded the montly API calls to the provider hahaha)
@@ -95,3 +100,7 @@ We get the following response
  }
 }
 ```
+
+## Authentication
+
+Follow this tutorial: https://www.geeksforgeeks.org/spring-boot-oauth2-with-jwt/
