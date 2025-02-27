@@ -36,6 +36,8 @@ REFRESH_TOKEN_PUBLIC_KEY_PATH=access-refresh-token-keys/refresh-token-public.key
 # MongoDB variables are defined in docker compose file
 ```
 
+To test the API, you can use [this](docs/Rho%20Interview%20Challenge.postman_collection.json) Postman collection. Complete with all the variables needed.
+
 # Design process
 
 ## Important notes
