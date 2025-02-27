@@ -11,7 +11,7 @@ docker compose up --build
 
 The `.env` file **needs** to contains these variables:
 ```bash
-EXCHANGE_RATE_KEY=<data-provider-api-key>
+EXCHANGE_RATE_KEY=<key>
 CACHE_DURATION=60
 
 LIMIT_FOR_PERIOD=5
@@ -20,7 +20,10 @@ TIMEOUT_DURATION=60
 
 KEYSTORE_PASSWORD=rhointerview
 
-JWT_SECRTE=<secret>
+ACCESS_TOKEN_PRIVATE_KEY_PATH=access-refresh-token-keys/access-token-private.key
+ACCESS_TOKEN_PUBLIC_KEY_PATH=access-refresh-token-keys/access-token-public.key
+REFRESH_TOKEN_PRIVATE_KEY_PATH=access-refresh-token-keys/refresh-token-private.key
+REFRESH_TOKEN_PUBLIC_KEY_PATH=access-refresh-token-keys/refresh-token-public.key
 ```
 
 # Design process
@@ -103,6 +106,8 @@ Follow this tutorial: https://www.geeksforgeeks.org/spring-boot-oauth2-with-jwt/
 - [x] Implement rate limiting
 - [x] Dockerize
 - [x] SSL
-- [ ] Implement authentication/authorization
+- [x] Implement authentication/authorization
+- [x] CORS
+- [x] E2E API testing
 - [ ] Unit testing
-- [ ] Remove TESTING blocks (mainly because I exceeded the monthly API calls to the provider hahaha)
+- [ ] Remove TESTING blocks (I exceeded the monthly API calls to the provider hahaha)

@@ -1,4 +1,4 @@
-package com.example.rho_interview_challenge;
+package com.example.rho_interview_challenge.advice;
 
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import org.springframework.http.HttpStatus;

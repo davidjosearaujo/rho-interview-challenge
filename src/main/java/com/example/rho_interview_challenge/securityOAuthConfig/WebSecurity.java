@@ -7,14 +7,12 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.json.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -28,8 +26,6 @@ import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthen
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import static org.springframework.security.config.http.SessionCreationPolicy.*;
-import static org.springframework.security.config.annotation.web.builders.HttpSecurity.*;
 
 @Configuration
 @EnableMethodSecurity
@@ -52,8 +48,16 @@ public class WebSecurity {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/auth/*").permitAll()
-                        .anyRequest().authenticated())
+                    .requestMatchers(
+                        "/api/auth/*",
+                        "/swagger/*",  // General Swagger assets
+                        "/swagger-ui/*",  // UI assets
+                        "/v3/docs/*",  // OpenAPI docs (potentially incorrect path)
+                        "/v3/api-docs/**",  // OpenAPI spec (important)
+                        "/swagger-ui.html",  // Main Swagger UI entry point
+                        "/webjars/**"  // Static resources used by Swagger
+                    ).permitAll()
+                    .anyRequest().authenticated())
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.disable())
                 .httpBasic(basic -> basic.disable())

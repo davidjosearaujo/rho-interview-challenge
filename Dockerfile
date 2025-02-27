@@ -6,4 +6,6 @@ RUN mvn package -DskipTests
 
 FROM openjdk:17-jdk-slim
 COPY --from=build /app/target/rho-interview-challenge-0.0.1.jar rho-interview-challenge-0.0.1.jar
+COPY access-refresh-token-keys/ .
+COPY keystore.p12 .
 ENTRYPOINT ["java","-jar","/rho-interview-challenge-0.0.1.jar"]

@@ -31,7 +31,7 @@ public class TokenGenerator {
         Instant now = Instant.now();
 
         JwtClaimsSet claimsSet = JwtClaimsSet.builder()
-                .issuer("myApp")
+                .issuer("rhointerviewchallenge")
                 .issuedAt(now)
                 .expiresAt(now.plus(5, ChronoUnit.MINUTES))
                 .subject(user.getId())

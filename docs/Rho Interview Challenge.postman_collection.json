@@ -1,0 +1,324 @@
+{
+	"info": {
+		"_postman_id": "d55285e9-2279-4641-aefc-476f3fe3cd86",
+		"name": "Rho Interview Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20536356"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.collectionVariables.set(\"user_id\", jsonData.userId);",
+									"pm.collectionVariables.set(\"access_token\", jsonData.accessToken);",
+									"pm.collectionVariables.set(\"refresh_token\", jsonData.refreshToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userName\": \"{{user_name}}\",\n\t\"password\": \"{{user_password}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}{{auth_path}}/register",
+							"host": [
+								"{{base_url}}{{auth_path}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"tokens\", jsonData);",
+									"pm.environment.set(\"access_token\", jsonData.accessToken);",
+									"pm.environment.set(\"refresh_token\", jsonData.refreshToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": \"{{user_id}}\",\n    \"accessToken\": \"{{access_token}}\",\n    \"refreshToken\": \"{{refresh_token}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}{{auth_path}}/token",
+							"host": [
+								"{{base_url}}{{auth_path}}"
+							],
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GraphQL",
+			"item": [
+				{
+					"name": "Get exchange rate for currency",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "{\n\trate(source: \"USD\", target: [\"AED\", \"AFN\"]){\n\t\tstatus\n\t\tbody\n\t}\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}{{graphql_path}}",
+							"host": [
+								"{{base_url}}{{graphql_path}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get value conversion",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "{\n\tvalue(source: \"USD\", amount: 3.0, target: [\"AED\", \"AFN\"]){\n\t\tstatus\n\t\tbody\n\t}\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}{{graphql_path}}",
+							"host": [
+								"{{base_url}}{{graphql_path}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "REST",
+			"item": [
+				{
+					"name": "Get exchange rate for a currency",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}{{service_path}}/rate/USD?target=AED&target=AFN",
+							"host": [
+								"{{base_url}}{{service_path}}"
+							],
+							"path": [
+								"rate",
+								"USD"
+							],
+							"query": [
+								{
+									"key": "target",
+									"value": "AED"
+								},
+								{
+									"key": "target",
+									"value": "AFN"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get value conversion",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}{{service_path}}/value/USD/3.14?target=AED&target=AFN",
+							"host": [
+								"{{base_url}}{{service_path}}"
+							],
+							"path": [
+								"value",
+								"USD",
+								"3.14"
+							],
+							"query": [
+								{
+									"key": "target",
+									"value": "AED"
+								},
+								{
+									"key": "target",
+									"value": "AFN"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "auth_path",
+			"value": "/api/auth",
+			"type": "string"
+		},
+		{
+			"key": "user_name",
+			"value": "rho",
+			"type": "string"
+		},
+		{
+			"key": "user_password",
+			"value": "1234isbad",
+			"type": "string"
+		},
+		{
+			"key": "user_id",
+			"value": ""
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refresh_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "service_path",
+			"value": "/api/exchange",
+			"type": "string"
+		},
+		{
+			"key": "graphql_path",
+			"value": "/graphql",
+			"type": "string"
+		}
+	]
+}

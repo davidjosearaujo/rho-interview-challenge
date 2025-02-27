@@ -10,7 +10,11 @@ services:
     depends_on:
       - mongo  # Ensures MongoDB starts before API
     environment:
-      DATABASE_URL: mongodb://root:example@mongo:27017/
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: example
+      DATABASE_HOST: mongo
+      DATABASE_PORT: 27017
+      DATABASE_NAME: db1
 
   mongo:
     image: mongo

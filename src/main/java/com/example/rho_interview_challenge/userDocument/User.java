@@ -36,7 +36,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    // Methods required by Spring Security for user details
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.emptyList();
     }
@@ -59,8 +58,6 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
+        return this.userName;
     }
-
 }
