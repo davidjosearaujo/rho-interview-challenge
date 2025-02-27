@@ -69,7 +69,7 @@ flowchart LR
 
 ### Endpoints
 
-![endpoints](docs/Screenshot from 2025-02-27 16-25-24.png)
+![endpoints](docs/Screenshot.png)
 
 - `/api/exchange/rate/A` - Get exchange rates for currency A
 - `/api/exchange/rate/A?currency=B` - Get exchange rate from currency A to B
