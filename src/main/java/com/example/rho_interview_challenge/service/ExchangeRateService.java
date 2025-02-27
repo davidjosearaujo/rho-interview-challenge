@@ -61,20 +61,7 @@ public class ExchangeRateService {
                 return new ExchangeRate(); // Return an empty object instead of throwing an exception
             }
 
-            // TESTING
-            String mockResponse = "{\n" +
-                    " \"success\": true,\n" +
-                    " \"terms\": \"https:\\/\\/currencylayer.com\\/terms\",\n" +
-                    " \"privacy\": \"https:\\/\\/currencylayer.com\\/privacy\",\n" +
-                    " \"timestamp\": 1740477123,\n" +
-                    " \"source\": \"USD\",\n" +
-                    " \"quotes\": {\n" +
-                    "  \"USDAED\": 3.672745,\n" +
-                    "  \"USDAFN\": 73.978873\n}}";
-
-            //JsonNode rootNode = mapper.readTree(response.body());
-            // TESTING
-            JsonNode rootNode = mapper.readTree(mockResponse);
+            JsonNode rootNode = mapper.readTree(response.body());
             Map<String, Double> rates = new HashMap<>();
             rootNode.get("quotes").fields().forEachRemaining(entry -> {
                 rates.put(entry.getKey().substring(3), entry.getValue().asDouble());
