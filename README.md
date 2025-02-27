@@ -1,5 +1,12 @@
 # Rho Interview Challenge
 
+## Table of Contents
+
+1. [How to Run](#how-to-run)
+2. [Design process](#design-process)
+3. [Data provider](#data-provider)
+4. [Feature implementation](#feature-implementation)
+
 # How to run 
 
 ```bash
@@ -72,6 +79,7 @@ flowchart LR
 - `/api/register` - Register new user
 - `/api/login` - Login user
 - `/api/token` - Refresh token
+- `/graphql` - GraphQL endpoint
 - `/swagger-ui/index.html` - API Swagger Docs
 
 ## Testing
