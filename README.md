@@ -14,7 +14,7 @@ docker compose up --build
 ```
 
 > **ATTENTION**
-> In order to interact with the data provider API you need an **api key**.\
+> In order to interact with the data provider API you need an **api key**. The data provider used was [exchangerate.host](https://exchangerate.host/)\
 > Also, there are **environment variable that need to be set**! This can be done by creating a `.env` file in the same directory of the `docker-compose.yml`
 
 The `.env` file **needs** to contains these variables:
