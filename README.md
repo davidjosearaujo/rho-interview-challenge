@@ -28,7 +28,6 @@ TIMEOUT_DURATION=60
 
 KEYSTORE_PASSWORD=rhointerview
 
-# ATTENTION: These keys are for testing purposes only, DO NOT USE THEN IM PRODUCTION!
 ACCESS_TOKEN_PRIVATE_KEY_PATH=access-refresh-token-keys/access-token-private.key
 ACCESS_TOKEN_PUBLIC_KEY_PATH=access-refresh-token-keys/access-token-public.key
 REFRESH_TOKEN_PRIVATE_KEY_PATH=access-refresh-token-keys/refresh-token-private.key
