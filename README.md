@@ -7,11 +7,12 @@ docker compose up --build
 ```
 
 > **ATTENTION**
-> In order to interact with the data provider API you need an **api key**. Also, there are **environment variable that need to be set**. This can be done by creating a `.env` file in the same directory of the `docker-compose.yml`
+> In order to interact with the data provider API you need an **api key**.\
+> Also, there are **environment variable that need to be set**! This can be done by creating a `.env` file in the same directory of the `docker-compose.yml`
 
 The `.env` file **needs** to contains these variables:
 ```bash
-EXCHANGE_RATE_KEY=<key>
+EXCHANGE_RATE_KEY=<api-key>
 CACHE_DURATION=60
 
 LIMIT_FOR_PERIOD=5
@@ -20,17 +21,16 @@ TIMEOUT_DURATION=60
 
 KEYSTORE_PASSWORD=rhointerview
 
+# ATTENTION: These keys are for testing purposes only, DO NOT USE THEN IM PRODUCTION!
 ACCESS_TOKEN_PRIVATE_KEY_PATH=access-refresh-token-keys/access-token-private.key
 ACCESS_TOKEN_PUBLIC_KEY_PATH=access-refresh-token-keys/access-token-public.key
 REFRESH_TOKEN_PRIVATE_KEY_PATH=access-refresh-token-keys/refresh-token-private.key
 REFRESH_TOKEN_PUBLIC_KEY_PATH=access-refresh-token-keys/refresh-token-public.key
+
+# MongoDB variables are defined in docker compose file
 ```
 
 # Design process
-
-
-Data providers to use:
-- [exchangerate.host](https://exchangerate.host)
 
 ## Important notes
 
@@ -43,7 +43,9 @@ We can **use "two-step conversion"** for exchanges by query only for the rates o
 > - If we are first queried for the rate between A and B, we can request the provider for all the rates of A, and if we are then queried for X to Z, we can just use the existing locally stored rates (if not obsolete) and calculate X to A and A to Z.
 > - **Exchange rate of A to B = (A to X) * (X to B)**
 
-## API interaction flowchart
+## API 
+
+### Interaction flowchart
 
 Minimal steps approach, while making as few calls to data provider as possible.
 
@@ -58,15 +60,23 @@ flowchart LR
     step5 --> step6
 ```
 
-### API endpoints
+### Endpoints
 
-- `/rate/A` - Get exchange rates for currency A
-- `/rate/A?currency=B` - Get exchange rate from currency A to B
-- `/rate/A?c=B&c=C&c=D` - Get exchange rate from currency A to B, C and D
-- `/value/A?c=B&v=3.0` - Get A value in B currency
-- `/value/A?c=B&c=C&c=D&v=3.0` - Get A value in B, C and D currency
+![endpoints](docs/Screenshot from 2025-02-27 16-25-24.png)
 
+- `/api/exchange/rate/A` - Get exchange rates for currency A
+- `/api/exchange/rate/A?currency=B` - Get exchange rate from currency A to B
+- `/api/exchange/rate/A?c=B&c=C&c=D` - Get exchange rate from currency A to B, C and D
+- `/api/exchange/value/A?c=B&v=3.0` - Get A value in B currency
+- `/api/exchange/value/A?c=B&c=C&c=D&v=3.0` - Get A value in B, C and D currency
+- `/api/register` - Register new user
+- `/api/login` - Login user
+- `/api/token` - Refresh token
 - `/swagger-ui/index.html` - API Swagger Docs
+
+## Testing
+
+[Here](docs/Rho%20Interview%20Challenge.postman_collection.json) you can find a Postman collection you can use to test all endpoints. Complete with variables for the tokens.
 
 # Data provider
 
@@ -91,10 +101,6 @@ We get the following response
 }
 ```
 
-# Authentication
-
-Follow this tutorial: https://www.geeksforgeeks.org/spring-boot-oauth2-with-jwt/
-
 # Feature implementation
 
 - [x] Get exchange from A to B
@@ -110,4 +116,4 @@ Follow this tutorial: https://www.geeksforgeeks.org/spring-boot-oauth2-with-jwt/
 - [x] CORS
 - [x] E2E API testing
 - [ ] Unit testing
-- [ ] Remove TESTING blocks (I exceeded the monthly API calls to the provider hahaha)
+- [x] Remove TESTING blocks (I exceeded the monthly API calls to the provider hahaha)
